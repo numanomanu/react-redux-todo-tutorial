@@ -9,16 +9,30 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.addList = this.addList.bind(this);
+    this.doneTodo = this.doneTodo.bind(this);
   }
   handleChange(e) {
     this.setState({ value: e.target.value });
   }
   addList() {
     this.setState(prevState => ({
-      todoList: [...prevState.todoList, this.state.value]
+      todoList: [...prevState.todoList, {
+        value: this.state.value,
+        doneFlag: false,
+      }]
     }));
     this.setState({ value: "" });
   }
+  doneTodo(number) {
+    const newTodoList = this.state.todoList.map((todo, index) => {
+      if(index === number){
+        todo.doneFlag = true;
+      }
+      return todo;
+    })
+    this.setState({ todoList: newTodoList })
+  }
+
   render() {
     return (
       <div>
@@ -29,7 +43,11 @@ class App extends Component {
         />
         <button onClick={this.addList}>add</button>
         <div>
-          {this.state.todoList.map(todo => <div>{todo}</div>)}
+          {this.state.todoList.map((todo, index) =>
+            <div onClick={()=>{this.doneTodo(index)}}>
+              {todo.doneFlag ? <del>{todo.value}</del> : todo.value}
+            </div>)
+          }
         </div>
       </div>
     );
