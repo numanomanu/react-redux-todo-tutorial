@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AddTodo from '../components/AddTodo';
 
 import * as toDoActions from '../actions/todo';
 
@@ -18,18 +19,18 @@ function mapDispatchToProps(dispatch) {
 
 class TodoContainer extends Component {
 
-  addTodo = () => {
-    const dummydata = {
-      value: 'new todo' + this.props.todo.data.length,
+  addTodo = (data) => {
+    const inputData = {
+      value: data,
       doneFlag: false,
     }
-    this.props.toDoActions.addTodo(dummydata);
+    this.props.toDoActions.addTodo(inputData);
   }
   render() {
     const { data } = this.props.todo;
     return (
       <div>
-        <button onClick={this.addTodo}> addTodo </button>
+        <AddTodo clickCallback={this.addTodo} />
         <div>
           {data.map((todo, index) =>
             <div>
