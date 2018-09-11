@@ -4,17 +4,33 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      doneFlag: false
+      value: '',
+      todoList: [],
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.addList = this.addList.bind(this);
   }
-  done = () => {
-    this.setState({ doneFlag: true })
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
+  addList() {
+    this.setState(prevState => ({
+      todoList: [...prevState.todoList, this.state.value]
+    }));
+    this.setState({ value: "" });
   }
   render() {
     return (
       <div>
-        {this.state.doneFlag ? <del>any todo</del> : <span>any todo</span>}
-        <button onClick={()=>{ this.done() }}>Done</button>
+        <input
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <button onClick={this.addList}>add</button>
+        <div>
+          {this.state.todoList.map(todo => <div>{todo}</div>)}
+        </div>
       </div>
     );
   }
