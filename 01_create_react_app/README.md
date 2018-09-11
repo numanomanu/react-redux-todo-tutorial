@@ -56,3 +56,19 @@ class App extends Component {
 export default App;
 
 ```
+
+![start2](https://user-images.githubusercontent.com/11643610/45367094-66cec800-b61b-11e8-9381-53e3415df6a2.gif)
+
+### Tips
+
+[React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) を使って、React をデバッグしよう。
+google chrome のこのエクステンションを使うと、React のデバッグがしやすくなります。
+
+![image](https://user-images.githubusercontent.com/11643610/45367301-e2c91000-b61b-11e8-91bb-a0d6d7b08878.png)
+
+
+React Developper Tools を有効にすれば、chrome の開発者画面のタブに「React」という項目が現れます。
+このタブの中では渡って来ているデータなどを確認したり state などを手元で変更できます。
+
+
+![start3](https://user-images.githubusercontent.com/11643610/45367353-055b2900-b61c-11e8-8a6a-27a2eabc3171.gif)
