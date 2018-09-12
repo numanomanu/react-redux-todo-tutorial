@@ -6,3 +6,10 @@ export function addTodo(todo) {
     todo,
   }
 }
+
+export function doneTodo(number) {
+  return {
+    type: ActionTypes.DONE_TODO,
+    number,
+  }
+}

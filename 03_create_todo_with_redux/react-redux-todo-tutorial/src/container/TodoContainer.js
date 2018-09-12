@@ -26,6 +26,11 @@ class TodoContainer extends Component {
     }
     this.props.toDoActions.addTodo(inputData);
   }
+
+  doneTodo = (number) => {
+    this.props.toDoActions.doneTodo(number);
+  }
+
   render() {
     const { data } = this.props.todo;
     return (
@@ -34,7 +39,7 @@ class TodoContainer extends Component {
         <div>
           {data.map((todo, index) =>
             <div>
-              {todo.doneFlag ? <del>{todo.value}</del> : todo.value}
+              {todo.doneFlag ? <del>{todo.value}</del> : <span onClick={()=>{this.doneTodo(index)}}>{todo.value}</span>}
             </div>)
           }
         </div>

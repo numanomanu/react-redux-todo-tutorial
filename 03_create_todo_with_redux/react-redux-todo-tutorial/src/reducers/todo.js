@@ -17,6 +17,14 @@ export default function reducer(state = initialState, action) {
           action.todo
         ]
       }
+    case ActionTypes.DONE_TODO:
+      state.data[action.number].doneFlag = true;
+      return {
+        ...state,
+        data: [
+          ...state.data
+        ]
+      }
     default:
       return state
   }
