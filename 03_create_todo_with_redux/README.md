@@ -319,3 +319,84 @@ export default connect(mapStateToProps, mapDispatchToProps)(TodoContainer);
 ```
 
 ![start8](https://user-images.githubusercontent.com/11643610/45439904-fba5f400-b6f5-11e8-84d0-4aa99f3d8a9d.gif)
+
+
+### todo を input から追加できるようにする
+
+input を入力の一つの部品としてコンポーネントで定義する。
+
+```
+└── components
+    └── AddTodo.js
+```
+
+
+
+```js
+import React, { Component } from 'react';
+
+class AddTodo extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: ''
+    }
+    this.handleOnchange = this.handleOnchange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleOnchange(e) {
+    this.setState({value: e.target.value});
+  }
+  handleSubmit() {
+    this.props.clickCallback(this.state.value);
+    this.setState({value: ''});
+    this.mainInput.value = "";
+  }
+  render() {
+    return (
+      <div>
+        <input
+          ref={(ref) => this.mainInput = ref}
+          type="text"
+          onChange={this.handleOnchange}
+        />
+        <button onClick={this.handleSubmit}>add todo</button>
+      </div>
+    )
+  }
+}
+
+export default AddTodo;
+```
+
+ここはほとんど、02 でやった内容と同じです。違う部分は clickCallback という props が渡されていることです。
+
+````js
+this.props.clickCallback(this.state.value);
+```
+
+
+TodoContainer を以下のように書き換えます。
+
+```diff
+-  addTodo = () => {
+-    const dummydata = {
+-      value: 'new todo' + this.props.todo.data.length,
++  addTodo = (data) => {
++    const inputData = {
++      value: data,
+       doneFlag: false,
+     }
+-    this.props.toDoActions.addTodo(dummydata);
++    this.props.toDoActions.addTodo(inputData);
+   }
+   render() {
+     const { data } = this.props.todo;
+     return (
+       <div>
+-        <button onClick={this.addTodo}> addTodo </button>
++        <AddTodo clickCallback={this.addTodo} />
+```
+
+決め打ちだったデータを input から取得してきたデータに変換します。
+`<AddTodo clickCallback={this.addTodo} />` で clickCallback に this.addTodo を渡します。
