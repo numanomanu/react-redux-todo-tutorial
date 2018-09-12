@@ -22,19 +22,14 @@ src
 
 - index.js
 アプリケーションのエントリポイント。
-
 - actions
 state を更新するためのアクションを定義する場所。
-
 - components
 redux から state を受け取らないコンポーネントの層。 props を受け取って描画に徹する。
-
 - containers
 redux から state を受け取る層。
-
 - reducers
 state をどのように更新するか決める層。
-
 - store
 アプリケーションの状態を保存している層。
 

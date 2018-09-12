@@ -5,11 +5,11 @@
 React の大まかな概要から Redux で SPA を実際に作成するまでを体験してみましょう。
 
 ### 目次
-[00: はじめに](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/00_intro)
-[01: React を始める (create-react-app を使った方法)](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/01_create_react_app)
-[02: Todo List を Redux なしで作ってみよう](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/02_create_todo_without_redux)
-[03-01: Todo List に Redux を導入しよう](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/03_create_todo_with_redux_01)
-[03-02: Todo List に Redux を導入しよう2](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/03_create_todo_with_redux_02)
+- [00: はじめに](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/00_intro)
+- [01: React を始める (create-react-app を使った方法)](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/01_create_react_app)
+- [02: Todo List を Redux なしで作ってみよう](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/02_create_todo_without_redux)
+- [03-01: Todo List に Redux を導入しよう](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/03_create_todo_with_redux_01)
+- [03-02: Todo List に Redux を導入しよう2](https://github.com/TsuyoshiNumano/react-redux-todo-tutorial/tree/master/03_create_todo_with_redux_02)
 
 
 ### React の概要
