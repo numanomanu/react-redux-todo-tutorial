@@ -245,3 +245,77 @@ export default function reducer(state = initialState, action) {
        return state
    }
 ```
+
+### action を発行して todo を追加する
+
+TodoContainer を編集して、todo を追加できるようにします
+
+TodoContainer.js の中身
+
+```diff
+import React, { Component } from 'react';
++import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
++import * as toDoActions from '../actions/todo';
+
++function mapDispatchToProps(dispatch) {
++  return {
++    toDoActions: bindActionCreators(toDoActions, dispatch),
++  };
+}
+
+class TodoContainer extends Component {
++
++  addTodo = () => {
++    const dummydata = {
++      value: 'new todo' + this.props.todo.data.length,
++      doneFlag: false,
++    }
++    this.props.toDoActions.addTodo(dummydata);
++  }
+   render() {
+     const { data } = this.props.todo;
+     return (
+       <div>
++        <button onClick={this.addTodo}> addTodo </button>
+         <div>
+
+
+-export default connect(mapStateToProps, {})(TodoContainer);
++export default connect(mapStateToProps, mapDispatchToProps)(TodoContainer);
+```
+
+react から redux の action を発行するためには、 mapStateToProps と同じように `mapDispatchToProps` という関数を使って、action を props として受け取って使えるようにします。そのためには redux の `bindActionCreators` を呼び出します。
+
+connect 関数の第二引数に mapDispatchToProps を入れると、props を呼び出せるようになります。
+
+```js
+import { bindActionCreators } from 'redux';
+import * as toDoActions from '../actions/todo';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    toDoActions: bindActionCreators(toDoActions, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoContainer);
+```
+
+
+ボタンをクリックすると、action が発行され、 ADD_TODO の type の reducer が起動して、データが追加されます。
+
+```js
+  addTodo = () => {
+    const dummydata = {
+      value: 'new todo' + this.props.todo.data.length,
+      doneFlag: false,
+    }
+    this.props.toDoActions.addTodo(dummydata);
+
+    ...
+
+    <button onClick={this.addTodo}> addTodo </button>
+```
+
+![start8](https://user-images.githubusercontent.com/11643610/45439904-fba5f400-b6f5-11e8-84d0-4aa99f3d8a9d.gif)
