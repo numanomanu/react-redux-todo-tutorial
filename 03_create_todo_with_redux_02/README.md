@@ -175,7 +175,7 @@ export default AddTodo;
 
 ここはほとんど、02 でやった内容と同じです。違う部分は clickCallback という props が渡されていることです。
 
-````js
+```js
 this.props.clickCallback(this.state.value);
 ```
 
