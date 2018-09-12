@@ -204,3 +204,67 @@ TodoContainer を以下のように書き換えます。
 
 決め打ちだったデータを input から取得してきたデータに変換します。
 `<AddTodo clickCallback={this.addTodo} />` で clickCallback に this.addTodo を渡します。
+
+![start9](https://user-images.githubusercontent.com/11643610/45441344-bd123880-b6f9-11e8-8a06-6376b1226528.gif)
+
+### todo を done できるようにする
+先ほどの例で、 react redux での一連の動きはできました。最後に todo を done できるようにしましょう。
+方針としては、todo をクリックした時に index を取得し、その index の doneflag を reducer で true にできるように実装します。
+
+まずは ActionTypes に action を追加します。
+
+```js
+export const DONE_TODO = 'DONE_TODO';
+```
+
+action にも doneTodo 関数を追加しましょう
+
+actions/todo.js の中身
+
+```js
+export function doneTodo(number) {
+  return {
+    type: ActionTypes.DONE_TODO,
+    number,
+  }
+}
+```
+
+reducers/todo.js の中身に追記
+
+```js
+case ActionTypes.DONE_TODO:
+  state.data[action.number].doneFlag = true;
+  return {
+    ...state,
+    data: [
+      ...state.data
+    ]
+  }
+```
+
+TodoContainer.js に以下を追記
+
+```js
+doneTodo = (number) => {
+  this.props.toDoActions.doneTodo(number);
+}
+```
+
+```diff
+-  {todo.doneFlag ? <del>{todo.value}</del> : todo.value}
++  {todo.doneFlag ? <del>{todo.value}</del> : <span onClick={()=>{this.doneTodo(index)}}>{todo.value}</span>}
+```
+
+クリックした todo に取り消し線をつけることができました。
+![start10](https://user-images.githubusercontent.com/11643610/45441816-1dee4080-b6fb-11e8-967f-d18cb79d4350.gif)
+
+
+### まとめ
+- reducer で特定のアクションで更新したい state を指定する
+- store にアプリケーションの状態のデータなどが入っている
+- react で利用するときは provider でストアを渡す
+- redux で扱う状態データは mapStateToProps で props として渡して、変数を変更しないようにする
+- container で action を発行するには mapDispatchToProps でアクションも props として受け取れるようにしておく
+- データの変更は常に action を通して、 reducer で行う
+- 何かアクションを付け加えたいときは、つど、action reducer を定義する
