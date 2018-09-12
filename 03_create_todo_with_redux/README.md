@@ -69,7 +69,7 @@ todo という state を定義して、その中身はどのような形をし�
 
 ### reducer の結合
 redux を触る場合、todo 以外にも多くの状態を持つアプリケーションを作る場合があります。
-それらの状態を統合するために、 combineReducers という関数で、複数の状態を一つにまとめます。（今回は一つの todo という状態だけを結合しています）
+それらの状態を統合するために、 combineReducers という関数で、複数の状態を一つにまとめます。（今回は一つの todo という状態だけなので、最悪なくても良いです）
 
 index.js の中身
 ```js
@@ -83,5 +83,50 @@ const rootReducer = combineReducers({
 export default rootReducer;
 ```
 
+### store
+状態を保存する層の定義をしていきます。
+先ほど結合した rootReducer を呼び出して、createStore 関数で store という変数にまとめています。
+基本的に store にアプリケーションの状態のデータが保存されています。 `store.getState()` などで、データを取り出すことができます。
+react-redux では後述しますが、別の方法で store の状態を読み出します。
 
-### 
+```
+└── store
+    └── configureStore.js
+```
+
+configureStore.js の中身
+```js
+import { createStore } from 'redux';
+import rootReducer from '../reducers';
+
+const configureStore = preloadedState => {
+  const store = createStore(
+    rootReducer,
+    preloadedState,
+  )
+  return store
+}
+
+export default configureStore;
+```
+
+
+### Provider で react と redux をつなぐ
+
+先ほど作った store を react で扱えるようにします。
+`Provider` というコンポーネントが、よしなに store の状態を取得できるような仕組みを提供してくれます。
+
+```diff
+import React from 'react';
++import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import TodoContainer from './container/TodoContainer';
++import configureStore from './store/configureStore';
+
+-ReactDOM.render(<TodoContainer />, document.getElementById('root'));
++ReactDOM.render(
++  <Provider store={configureStore()}>
++    <TodoContainer />
++  </Provider>
++, document.getElementById('root'));
+```
