@@ -116,6 +116,11 @@ export default configureStore;
 先ほど作った store を react で扱えるようにします。
 `Provider` というコンポーネントが、よしなに store の状態を取得できるような仕組みを提供してくれます。
 
+```
+└── index.js
+```
+
+index.js の中身
 ```diff
 import React from 'react';
 +import { Provider } from 'react-redux';
@@ -130,3 +135,62 @@ import TodoContainer from './container/TodoContainer';
 +  </Provider>
 +, document.getElementById('root'));
 ```
+
+### Container で state を受け取って表示する
+先ほど実装した `<Provider store={configureStore()}>` によって、配下のコンポーネントで state を呼び出せるようになりました。
+`react-redux` が提供している `connect` という関数を使えば、 react のコンポーネント内で redux で管理している state を呼び出すことができます。具体的には以下のようなコードになります。
+
+```
+└── container
+    └── TodoContainer.js
+```
+
+```js
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+function mapStateToProps(state) {
+    return {
+        todo: state.todo,
+    };
+}
+
+class TodoContainer extends Component {
+  render() {
+    const { data } = this.props.todo;
+    return (
+      <div>
+        {data.map((todo, index) =>
+          <div>
+            {todo.doneFlag ? <del>{todo.value}</del> : todo.value}
+          </div>)
+        }
+      </div>
+    );
+  }
+}
+
+export default connect(mapStateToProps, {})(TodoContainer);
+
+```
+
+`mapStateToProps` で、state の中から利用する todo という reducer で指定した値を定義すると、state を props に変換して渡してくれます。コンポーネント内でこの値を呼び出すときは `this.props.todo` という props になった状態で扱えるようになります。
+
+```js
+function mapStateToProps(state) {
+    return {
+        todo: state.todo,
+    };
+}
+
+...
+
+const { data } = this.props.todo;
+```
+
+基本的に、redux では state の更新は action を通して行うというルールがあるので、mapStateToProps で redux で保存されている state を props として渡しています。
+そうすることで何が嬉しいかというと、もし state を不用意に変更するコードを書きまくると、どこで何が起こっているのかわからなくなりますが、そういう状況を抑えるためにも、props にして変更しない変数として扱うことができるようになります。
+
+この状態で localhost:3000 を参照すると、以下のように reducer に保存した todo の initialState が表示されます
+
+![start7](https://user-images.githubusercontent.com/11643610/45436329-859d8f00-b6ed-11e8-8a04-86b60db517d0.gif)
