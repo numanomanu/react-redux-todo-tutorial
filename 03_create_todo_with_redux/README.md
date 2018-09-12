@@ -194,3 +194,54 @@ const { data } = this.props.todo;
 この状態で localhost:3000 を参照すると、以下のように reducer に保存した todo の initialState が表示されます
 
 ![start7](https://user-images.githubusercontent.com/11643610/45436329-859d8f00-b6ed-11e8-8a04-86b60db517d0.gif)
+
+
+### action で todo の state を更新する
+redux で state を更新するには、action を発行する必要があります。
+todo を追加するための addTodo の action を定義して見ます。
+
+```
+└── actions
+    ├── actionTypes.js
+    └── todo.js
+ ```
+
+actionTypes.js の中身
+
+```js
+export const ADD_TODO = 'ADD_TODO';
+```
+
+todo.js の中身
+```js
+import * as ActionTypes from './actionTypes';
+
+export function addTodo(todo) {
+  return {
+    type: ActionTypes.ADD_TODO,
+    todo,
+  }
+}
+```
+
+redux のルールでは、 action には `type` と何らかのデータを返す函数で action を定義します。
+`type` は reducer 側で state を更新する際の識別子として利用されます。todo という引数は、`{ value: '' doneFlag: false }` などの、todo の中身の情報を持つオブジェクトです。addTodo なので、todo のリストを data の配列に追加することを目的としています。
+
+以下のように、`reducers/todo.js` で ADD_TODO という type のアクションを受け取って、状態に変更を加えています。( data:[{}] に todo の値を追加している)
+
+reducers/todo.js
+```diff
+export default function reducer(state = initialState, action) {
+   switch(action.type) {
++    case ActionTypes.ADD_TODO:
++      return {
++        ...state,
++        data: [
++          ...state.data,
++          action.todo
++        ]
++      }
+     default:
+       return state
+   }
+```
